@@ -1,50 +1,74 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = [
+    { href: '/#features', label: 'Features' },
+    { href: '/features', label: 'All Features' },
+    { href: '/installation-guide', label: 'Installation' },
+    { href: '/#downloads', label: 'Downloads' },
+  ];
+
   return (
-    <footer className="py-12 border-t border-border">
-      <div className="section-container">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
-              <svg
-                className="w-5 h-5 text-accent-foreground"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+    <footer className="relative bg-foreground text-background border-t-4 border-accent">
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div 
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, currentColor 2px, transparent 0)
+            `,
+            backgroundSize: '24px 24px',
+          }}
+        />
+      </div>
+
+      <div className="relative section-container">
+        {/* Main Footer Content */}
+        <div className="py-6 lg:py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* Brand Section */}
+            <Link href="/" className="inline-block">
+              <div className="relative h-8">
+                <Image
+                  src="/logo_dark.png"
+                  alt="HireTrack"
+                  width={140}
+                  height={32}
+                  className="h-8 w-auto object-contain dark:hidden"
                 />
-              </svg>
-            </div>
-            <span className="text-lg font-semibold text-foreground">HireTrack</span>
+                <Image
+                  src="/logo.png"
+                  alt="HireTrack"
+                  width={140}
+                  height={32}
+                  className="h-8 w-auto object-contain hidden dark:block"
+                />
+              </div>
+            </Link>
+
+            {/* Links */}
+            <nav className="flex flex-wrap items-center gap-5">
+              {footerLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-background/80 hover:text-background text-sm transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
           </div>
+        </div>
 
-          {/* Links */}
-          <nav className="flex items-center gap-8">
-            <a href="/features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              All Features
-            </a>
-            <a href="/#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Overview
-            </a>
-            <a href="/#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              How It Works
-            </a>
-            <a href="/installation-guide" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Installation Guide
-            </a>
-            <a href="/#downloads" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Downloads
-            </a>
-          </nav>
-
-          {/* Copyright */}
-          <p className="text-sm text-muted-foreground">
-            HireTrack. Built for production.
+        {/* Bottom Bar */}
+        <div className="border-t border-background/20 py-4">
+          <p className="text-background/60 text-xs text-center">
+            © {currentYear} HireTrack
           </p>
         </div>
       </div>

@@ -1,0 +1,55 @@
+{
+  "name": "HireTrack - AI-Powered Hiring Platform",
+  "short_name": "HireTrack",
+  "description": "AI-powered hiring and applicant tracking system for enterprise teams",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon_dark.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "human-resources"],
+  "screenshots": [
+    {
+      "src": "/kanban-dashboard.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "label": "HireTrack Dashboard"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Installation Guide",
+      "short_name": "Install",
+      "description": "View installation guide",
+      "url": "/installation-guide",
+      "icons": [{ "src": "/icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Features",
+      "short_name": "Features",
+      "description": "View all features",
+      "url": "/features",
+      "icons": [{ "src": "/icon.png", "sizes": "192x192" }]
+    }
+  ]
+}

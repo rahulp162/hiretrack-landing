@@ -7,10 +7,23 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Installation Guide',
   description:
-    'Choose your installation approach for HireTrack. User-based installation is recommended for production environments with better security isolation.',
+    'Choose your installation approach for HireTrack. User-based installation is recommended for production environments with better security isolation. Includes system requirements, prerequisites, and step-by-step guides.',
+  keywords: [
+    'HireTrack installation',
+    'installation guide',
+    'deployment guide',
+    'setup instructions',
+    'HireTrack setup',
+    'installation tutorial',
+  ],
   openGraph: {
     title: 'HireTrack Installation Guide',
-    description: 'Step-by-step installation guide for HireTrack hiring platform.',
+    description: 'Step-by-step installation guide for HireTrack hiring platform. Choose between user-based or root-based installation approaches.',
+    type: 'article',
+    url: 'https://hire.upforce.tech/installation-guide',
+  },
+  alternates: {
+    canonical: 'https://hire.upforce.tech/installation-guide',
   },
 };
 
@@ -148,11 +161,6 @@ export default function InstallationGuide() {
               </div>
             </div>
           </section>
-
-          {/* Footer */}
-          <div className="text-center pt-8 border-t border-border">
-            <p className="text-muted-foreground">© HireTrack – Secure by design</p>
-          </div>
         </div>
       </main>
     </div>

@@ -299,11 +299,6 @@ You can register the first organization from the URL below:
             <h3 className="text-xl font-semibold text-foreground mt-6">Verify SSL Certificate</h3>
             <CopyableCode code="certbot certificates" />
           </section>
-
-          {/* Footer */}
-          <div className="text-center pt-8 border-t border-border">
-            <p className="text-muted-foreground">© HireTrack – Secure by design</p>
-          </div>
         </div>
       </main>
     </div>

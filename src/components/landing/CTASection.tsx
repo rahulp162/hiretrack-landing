@@ -5,7 +5,7 @@ const CTASection = () => {
     <section className="section-padding bg-primary text-primary-foreground">
       <div className="section-container">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl text-primary-foreground md:text-4xl font-bold mb-4">
             Ready to Transform Your Hiring Process?
           </h2>
           <p className="text-lg opacity-80 mb-8 max-w-xl mx-auto">

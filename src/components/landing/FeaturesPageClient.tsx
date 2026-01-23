@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import Header from '@/components/landing/Header';
-import Footer from '@/components/landing/Footer';
 import { FeaturesShowcase } from '@/components/landing/FeaturesShowcase';
 
 export function FeaturesPageClient() {
@@ -33,7 +32,6 @@ export function FeaturesPageClient() {
       <main className="pt-16">
         <FeaturesShowcase />
       </main>
-      <Footer />
     </div>
   );
 }

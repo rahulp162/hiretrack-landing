@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featureCategories = [
   {
@@ -671,10 +672,29 @@ export function FeaturesShowcase() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-12 lg:pt-24 lg:pb-16 overflow-hidden">
-        <div className="absolute inset-0 subtle-grid opacity-40" />
-        <div className="absolute top-20 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <section className="relative pt-20 pb-12 lg:pt-24 lg:pb-16 overflow-hidden bg-gradient-to-b from-background via-muted/50 to-background">
+        {/* Clean dot pattern with fade to bottom */}
+        <div 
+          className="absolute inset-0 opacity-60"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 1px 1px, hsl(var(--accent) / 0.25) 2px, transparent 0)
+            `,
+            backgroundSize: '20px 20px',
+          }}
+        />
+        
+        {/* Gradient fade overlay - fades pattern to bottom */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(to bottom, transparent 0%, transparent 40%, hsl(var(--background) / 0.6) 70%, hsl(var(--background)) 100%)',
+          }}
+        />
+        
+        {/* Subtle gradient orbs */}
+        {/* <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl" /> */}
 
         <div className="section-container relative">
           <div className="max-w-4xl mx-auto text-center">
@@ -715,9 +735,9 @@ export function FeaturesShowcase() {
       </section>
 
       {/* Features Grid */}
-      <section className="section-padding">
-        <div className="section-container">
-          <div className="space-y-24">
+      <section className="section-padding bg-opacity-0">
+        <div className="section-container bg-opacity-0">
+          <div className="space-y-24 bg-opacity-0">
             {featureCategories.map((category) => (
               <div key={category.id} id={category.id} className="scroll-mt-24">
                 <div className="mb-12">
@@ -747,47 +767,67 @@ export function FeaturesShowcase() {
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-6">
-                        {/* Highlights */}
-                        <div>
-                          <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                            Key Features
-                          </h4>
-                          <ul className="space-y-3">
-                            {feature.highlights.map((highlight, idx) => (
-                              <li key={idx} className="flex items-start gap-3">
-                                <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
-                                <span className="text-foreground leading-relaxed">{highlight}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                        {/* Highlights - Accordion (collapsed by default) */}
+                        <Accordion 
+                          type="single" 
+                          collapsible 
+                          className="w-full"
+                        >
+                          <AccordionItem value={`${category.id}-${featureIndex}-highlights`} className="border-none">
+                            <AccordionTrigger className="py-2 hover:no-underline">
+                              <span className="text-sm font-semibold text-muted-foreground">
+                                {feature.highlights.length} Features
+                              </span>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <ul className="space-y-3 pt-2">
+                                {feature.highlights.map((highlight, idx) => (
+                                  <li key={idx} className="flex items-start gap-3">
+                                    <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                                    <span className="text-foreground leading-relaxed">{highlight}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
 
-                        {/* Sub-features */}
+                        {/* Sub-features - Accordion (collapsed by default) */}
                         {feature.subFeatures && feature.subFeatures.length > 0 && (
-                          <div className="pt-6 border-t border-border">
-                            <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                              Additional Details
-                            </h4>
-                            <div className="grid md:grid-cols-2 gap-4">
-                              {feature.subFeatures.map((subFeature, subIdx) => (
-                                <div key={subIdx} className="p-4 rounded-lg bg-muted/30 border border-border">
-                                  <h5 className="font-semibold text-foreground mb-2 flex items-center gap-2">
-                                    <Badge variant="secondary" className="text-xs">
-                                      {subFeature.name}
-                                    </Badge>
-                                  </h5>
-                                  <ul className="space-y-2 pl-0 list-none">
-                                    {subFeature.items.map((item, itemIdx) => (
-                                      <li key={itemIdx} className="flex items-start gap-2 text-sm text-muted-foreground">
-                                        <span className="text-accent flex-shrink-0">•</span>
-                                        <span className="flex-1">{item}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
+                          <Accordion 
+                            type="single" 
+                            collapsible 
+                            className="w-full pt-4 border-t border-border"
+                          >
+                            <AccordionItem value={`${category.id}-${featureIndex}-subfeatures`} className="border-none">
+                              <AccordionTrigger className="py-2 hover:no-underline">
+                                <span className="text-sm font-semibold text-muted-foreground">
+                                  Additional Details ({feature.subFeatures.length})
+                                </span>
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                <div className="grid md:grid-cols-2 gap-4 pt-2">
+                                  {feature.subFeatures.map((subFeature, subIdx) => (
+                                    <div key={subIdx} className="p-4 rounded-lg bg-muted/30 border border-border">
+                                      <h5 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                                        <Badge variant="secondary" className="text-xs">
+                                          {subFeature.name}
+                                        </Badge>
+                                      </h5>
+                                      <ul className="space-y-2 pl-0 list-none">
+                                        {subFeature.items.map((item, itemIdx) => (
+                                          <li key={itemIdx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                                            <span className="text-accent flex-shrink-0">•</span>
+                                            <span className="flex-1">{item}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
                         )}
                       </CardContent>
                     </Card>
