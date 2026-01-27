@@ -23,6 +23,15 @@ const CTASection = () => {
                 View Documentation
               </a>
             </Button>
+            <Button 
+              size="xl" 
+              className="bg-accent text-white hover:bg-accent/90"
+              asChild
+            >
+              <a href="/hiretrack-installer">
+                Download Installer
+              </a>
+            </Button>
           </div>
         </div>
       </div>
