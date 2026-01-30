@@ -1,33 +1,31 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import Header from '@/components/landing/Header';
-import HeroSection from '@/components/landing/HeroSection';
-import { FeaturesShowcase } from '@/components/landing/FeaturesShowcase';
-import FeaturesSection from '@/components/landing/FeaturesSection';
-import HowItWorksSection from '@/components/landing/HowItWorksSection';
-import RolesSection from '@/components/landing/RolesSection';
-import DownloadsSection from '@/components/landing/DownloadsSection';
-import CTASection from '@/components/landing/CTASection';
-import Footer from '@/components/landing/Footer';
-import AllFeaturesSection from './AllFeatures';
+import { useEffect } from "react";
+import Header from "@/components/landing/Header";
+import HeroSection from "@/components/landing/HeroSection";
+import FeaturesSection from "@/components/landing/FeaturesSection";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
+import RolesSection from "@/components/landing/RolesSection";
+import AllFeaturesSection from "./AllFeatures";
+import { ScrollToTop } from "@/components/ui/scroll-to-top"; // Added
+import ContactCTASection from "./CTASection";
 
 export function HomePageClient() {
   useEffect(() => {
     // Handle anchor links on page load
     const hash = window.location.hash;
     if (hash) {
-      // Wait for content to render
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
-          const headerOffset = 80; // Account for fixed header
+          const headerOffset = 80;
           const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          const offsetPosition =
+            elementPosition + window.pageYOffset - headerOffset;
 
           window.scrollTo({
             top: offsetPosition,
-            behavior: 'smooth',
+            behavior: "smooth",
           });
         }
       }, 100);
@@ -35,17 +33,17 @@ export function HomePageClient() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
       <Header />
       <main>
         <HeroSection />
-        <AllFeaturesSection/>
+        <AllFeaturesSection />
         <FeaturesSection />
         <HowItWorksSection />
         <RolesSection />
-        <DownloadsSection />
-        <CTASection />
+        <ContactCTASection />
       </main>
+      <ScrollToTop />
     </div>
   );
 }

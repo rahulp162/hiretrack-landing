@@ -99,7 +99,6 @@ const Header = () => {
         { id: 'features', hash: '#features' },
         { id: 'how-it-works', hash: '#how-it-works' },
         { id: 'roles', hash: '#roles' },
-        { id: 'downloads', hash: '#downloads' },
       ];
 
       let activeHash = '#Overview';
@@ -180,7 +179,6 @@ const Header = () => {
     { href: '/#features', label: 'Features' },
     { href: '/#how-it-works', label: 'How It Works' },
     { href: '/#roles', label: 'Roles' },
-    { href: '/#downloads', label: 'Downloads' },
     { href: '/installation-guide', label: 'Installation Guide' },
   ];
 
