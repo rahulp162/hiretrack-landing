@@ -35,7 +35,7 @@ const ContactCTASection = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false); // New state for success view
+  const [isSuccess, setIsSuccess] = useState(false);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const validateForm = () => {
@@ -77,11 +77,23 @@ const ContactCTASection = () => {
 
     setIsSubmitting(true);
 
+    // Always reset captcha state before starting to clear previous hangs
+    recaptchaRef.current?.reset();
+
     try {
-      const token = await recaptchaRef.current?.executeAsync();
+      // Create a promise that resolves to null if the captcha takes too long
+      const captchaPromise = recaptchaRef.current?.executeAsync();
+
+      // We assume if it takes > 60 seconds, the user abandoned the challenge
+      const timeoutPromise = new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), 60000);
+      });
+
+      // Race the captcha against the timeout
+      const token = await Promise.race([captchaPromise, timeoutPromise]);
 
       if (!token) {
-        toast.error("Security check failed. Please try again.");
+        toast.error("Verification cancelled or timed out. Please try again.");
         setIsSubmitting(false);
         return;
       }
@@ -99,7 +111,6 @@ const ContactCTASection = () => {
       );
 
       if (result.success) {
-        // Trigger Success Animation
         setIsSuccess(true);
         toast.success(result.message);
         setFormData({ companyName: "", email: "", phone: "", comment: "" });
@@ -116,12 +127,17 @@ const ContactCTASection = () => {
     }
   };
 
+  // Helper to reset loading if the Captcha component specifically errors out
+  const handleCaptchaError = () => {
+    setIsSubmitting(false);
+    toast.error("Security check encountered an error. Please try again.");
+  };
+
   return (
     <section
       id="contact"
       className="section-padding bg-muted/30 border-t border-border relative overflow-hidden"
     >
-      {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -168,9 +184,7 @@ const ContactCTASection = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="relative"
           >
-            {/* The Card */}
             <div className="bg-card/80 backdrop-blur-xl border border-border/60 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-              {/* Top Gradient Line */}
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#f99e1f]/50 to-transparent" />
 
               <AnimatePresence mode="wait">
@@ -235,7 +249,6 @@ const ContactCTASection = () => {
                       noValidate
                       className="space-y-5"
                     >
-                      {/* Company Name */}
                       <div className="space-y-2">
                         <Label htmlFor="companyName">Company Name</Label>
                         <div className="relative group">
@@ -268,7 +281,6 @@ const ContactCTASection = () => {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {/* Email */}
                         <div className="space-y-2">
                           <Label htmlFor="email">Work Email</Label>
                           <div className="relative group">
@@ -301,7 +313,6 @@ const ContactCTASection = () => {
                           </AnimatePresence>
                         </div>
 
-                        {/* Phone */}
                         <div className="space-y-2">
                           <Label htmlFor="phone">Phone (Optional)</Label>
                           <div className="relative group">
@@ -319,7 +330,6 @@ const ContactCTASection = () => {
                         </div>
                       </div>
 
-                      {/* Comment */}
                       <div className="space-y-2">
                         <Label htmlFor="comment">Message</Label>
                         <Textarea
@@ -371,12 +381,15 @@ const ContactCTASection = () => {
           </motion.div>
         </div>
       </div>
+
       <ReCAPTCHA
         ref={recaptchaRef}
         size="invisible"
         badge="bottomleft"
         sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
         theme="light"
+        onErrored={handleCaptchaError}
+        onExpired={() => setIsSubmitting(false)}
       />
     </section>
   );
