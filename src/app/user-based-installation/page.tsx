@@ -403,7 +403,7 @@ chmod 700 .ssh`}
               the start):
             </p>
             <CopyableCode
-              code={`Port 22                    # Or use a custom port like 54321
+              code={`Port 54321
 PubkeyAuthentication yes
 PermitRootLogin prohibit-password
 PasswordAuthentication no  # WARNING: Ensure you have an active SSH session before disabling`}
