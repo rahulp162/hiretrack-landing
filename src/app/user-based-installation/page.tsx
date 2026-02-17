@@ -310,7 +310,6 @@ export default function UserBasedInstallation() {
               This section covers creating a dedicated user, setting up SSH key
               authentication, and configuring restricted sudo permissions.
             </p>
-
             {/* Step 1 */}
             <h3 className="text-xl font-semibold text-foreground mt-8">
               Step 1: Local Machine Setup (Generate SSH Key)
@@ -319,7 +318,6 @@ export default function UserBasedInstallation() {
               Perform these steps on your <strong>local machine</strong> (not on
               the server).
             </p>
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Generate SSH Key Pair
             </h4>
@@ -327,7 +325,6 @@ export default function UserBasedInstallation() {
             <p className="text-sm text-muted-foreground mt-2">
               Follow the prompts. You can set a passphrase or leave it empty.
             </p>
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Display Public Key
             </h4>
@@ -336,7 +333,6 @@ export default function UserBasedInstallation() {
               <strong>Copy the entire output</strong> - you will need to paste
               it on the server in the next step.
             </p>
-
             {/* Step 2 */}
             <h3 className="text-xl font-semibold text-foreground mt-8">
               Step 2: Server Setup (Root Access Required)
@@ -345,7 +341,6 @@ export default function UserBasedInstallation() {
               Perform these steps on the <strong>server</strong> as the{" "}
               <strong>root user</strong> (or with sudo privileges).
             </p>
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Step 2.1: Create Dedicated User
             </h4>
@@ -361,7 +356,6 @@ export default function UserBasedInstallation() {
               Verify the user was created:
             </p>
             <CopyableCode code="id hiretrack" />
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Step 2.2: Setup SSH Public Key Authentication
             </h4>
@@ -369,9 +363,8 @@ export default function UserBasedInstallation() {
               Create the SSH directory and set permissions:
             </p>
             <CopyableCode
-              code={`sudo mkdir -p /home/hiretrack/.ssh
-sudo chmod 700 /home/hiretrack/.ssh
-sudo chown hiretrack:hiretrack /home/hiretrack/.ssh`}
+              code={`mkdir -p .ssh
+chmod 700 .ssh`}
             />
             <p className="text-sm text-muted-foreground mt-2">
               Create the authorized_keys file:
@@ -385,25 +378,9 @@ sudo chown hiretrack:hiretrack /home/hiretrack/.ssh`}
               Set correct permissions:
             </p>
             <CopyableCode code="sudo chmod 600 ~/.ssh/authorized_keys" />
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Step 2.3: Harden SSH Configuration (Recommended)
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              Edit SSH configuration:
-            </p>
-            <CopyableCode code="sudo nano /etc/ssh/sshd_config" />
-            <p className="text-sm text-muted-foreground mt-2">
-              Find and modify these lines (remove &apos;#&apos; if present at
-              the start):
-            </p>
-            <CopyableCode
-              code={`Port 22                    # Or use a custom port like 54321
-PubkeyAuthentication yes
-PermitRootLogin prohibit-password
-PasswordAuthentication no  # WARNING: Ensure you have an active SSH session before disabling`}
-            />
-
+            </h4>{" "}
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mt-4">
               <p className="text-sm text-yellow-800 dark:text-yellow-200 flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
@@ -416,8 +393,21 @@ PasswordAuthentication no  # WARNING: Ensure you have an active SSH session befo
                   and have an active SSH session open.
                 </span>
               </p>
-            </div>
-
+            </div>{" "}
+            <p className="text-sm text-muted-foreground pt-5">
+              Edit SSH configuration:
+            </p>{" "}
+            <CopyableCode code="sudo nano /etc/ssh/sshd_config" />
+            <p className="text-sm text-muted-foreground mt-2">
+              Find and modify these lines (remove &apos;#&apos; if present at
+              the start):
+            </p>
+            <CopyableCode
+              code={`Port 22                    # Or use a custom port like 54321
+PubkeyAuthentication yes
+PermitRootLogin prohibit-password
+PasswordAuthentication no  # WARNING: Ensure you have an active SSH session before disabling`}
+            />
             <p className="text-sm text-muted-foreground mt-4">
               Test SSH configuration:
             </p>
@@ -426,7 +416,6 @@ PasswordAuthentication no  # WARNING: Ensure you have an active SSH session befo
               If the test passes, restart SSH:
             </p>
             <CopyableCode code="sudo systemctl restart ssh" />
-
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-6">
               <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2 mt-0 mb-2">
                 <AlertTriangle className="w-4 h-4" />
@@ -453,7 +442,6 @@ PasswordAuthentication no  # WARNING: Ensure you have an active SSH session befo
                 and ensure the public key was correctly added to the server.
               </p>
             </div>
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Step 2.4: Install Fail2Ban (Recommended)
             </h4>
@@ -465,7 +453,6 @@ PasswordAuthentication no  # WARNING: Ensure you have an active SSH session befo
 sudo apt-get install -y fail2ban
 sudo systemctl enable --now fail2ban`}
             />
-
             <h4 className="text-lg font-medium text-foreground mt-4">
               Step 2.5: Grant Restricted Sudo Permissions
             </h4>
@@ -521,7 +508,6 @@ hiretrack ALL=(root) NOPASSWD: \\
                 /etc/sudoers.d/hiretrack: parsed OK
               </code>
             </p>
-
             {/* Step 3 */}
             <h3 className="text-xl font-semibold text-foreground mt-8">
               Step 3: Switch to User Account
@@ -538,7 +524,6 @@ hiretrack ALL=(root) NOPASSWD: \\
               Expected output:{" "}
               <code className="bg-muted px-2 py-0.5 rounded">hiretrack</code>
             </p>
-
             {/* Step 4 */}
             <h3 className="text-xl font-semibold text-foreground mt-8 mb-4">
               Step 4: Download Installer
@@ -572,7 +557,6 @@ hiretrack ALL=(root) NOPASSWD: \\
                 </div>
               </div>
             </div>
-
             <p className="text-muted-foreground mt-4">
               <strong>Next:</strong> Continue to{" "}
               <a
