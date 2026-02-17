@@ -412,10 +412,30 @@ PasswordAuthentication no  # WARNING: Ensure you have an active SSH session befo
               Test SSH configuration:
             </p>
             <CopyableCode code="sudo sshd -t" />
-            <p className="text-sm text-muted-foreground mt-2">
-              If the test passes, restart SSH:
+            <p className="text-sm text-muted-foreground mt-4">
+              Because modern systems use socket activation, you must update the
+              systemd socket override to listen on your custom port:
             </p>
-            <CopyableCode code="sudo systemctl restart ssh" />
+            <p className="text-sm text-muted-foreground mt-2">
+              Open the socket override editor:
+            </p>
+            <CopyableCode code="sudo systemctl edit ssh.socket" />
+            <p className="text-sm text-muted-foreground mt-2">
+              Paste the following into the file:
+            </p>
+            <CopyableCode
+              code={`[Socket]             # IMPORTANT
+ListenStream=
+ListenStream=54321`}
+            />
+            <p className="text-sm text-muted-foreground mt-2">
+              Reload the system and restart the socket:
+            </p>
+            <CopyableCode
+              code={`sudo systemctl daemon-reload
+sudo systemctl restart ssh.socket ssh
+`}
+            />
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mt-6">
               <h4 className="text-sm font-semibold text-blue-800 dark:text-blue-200 flex items-center gap-2 mt-0 mb-2">
                 <AlertTriangle className="w-4 h-4" />
