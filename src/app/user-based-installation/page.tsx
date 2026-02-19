@@ -488,26 +488,27 @@ sudo systemctl enable --now fail2ban`}
 Defaults:hiretrack env_reset
 Defaults:hiretrack secure_path=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
-hiretrack ALL=(root) NOPASSWD: \
-    /usr/bin/tee /etc/nginx/sites-available/*, \
-    /usr/bin/ln -sf /etc/nginx/sites-available/* /etc/nginx/sites-enabled/*, \
-    /usr/sbin/nginx -t, \
-    /usr/sbin/nginx, \
-    /usr/bin/apt, \
-    /usr/bin/apt-get, \
-    /usr/bin/systemctl, \
-    /usr/bin/mkdir, \
-    /usr/bin/rm, \
-    /usr/bin/chown, \
-    /usr/bin/chmod, \
-    /usr/bin/gpg, \
-    /usr/bin/node, \
-    /usr/bin/npm, \
-    /usr/bin/tar, \
-    /usr/bin/certbot, \
-    /usr/bin/lsb_release, \
-    /usr/bin/snap, \
-    /usr/bin/curl`}
+hiretrack ALL=(root) NOPASSWD: \\
+    /usr/bin/tee /etc/nginx/sites-available/*, \\
+    /usr/bin/ln, \\
+    /usr/sbin/nginx -t, \\
+    /usr/sbin/nginx, \\
+    /usr/bin/apt, \\
+    /usr/bin/apt-get, \\
+    /usr/bin/systemctl, \\
+    /usr/bin/mkdir, \\
+    /usr/bin/rm, \\
+    /usr/bin/chown, \\
+    /usr/bin/chmod, \\
+    /usr/bin/gpg, \\
+    /usr/bin/node, \\
+    /usr/bin/npm, \\
+    /usr/bin/tar, \\
+    /usr/bin/certbot, \\
+    /usr/bin/lsb_release, \\
+    /usr/bin/snap, \\
+    /usr/bin/curl
+`}
             />
             <p className="text-sm text-muted-foreground mt-2">
               Save and exit. Set the correct permissions on the sudoers file
